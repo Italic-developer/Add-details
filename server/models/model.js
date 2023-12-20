@@ -2,13 +2,14 @@ const mongoose = require('mongoose')
 
 
 const dataSchema = new mongoose.Schema({
-    name: {
+    
+    nameOfDetail: {
         required: true,
         type: String
     },
-    age: {
+    detail: {
         required: true,
-        type: Number
+        type: string
     }
 })
 
