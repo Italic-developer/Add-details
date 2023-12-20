@@ -9,7 +9,7 @@ const dataSchema = new mongoose.Schema({
     },
     detail: {
         required: true,
-        type: string
+        type: String
     }
 })
 
