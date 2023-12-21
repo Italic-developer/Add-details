@@ -66,7 +66,7 @@ export default function Home() {
     } , [])
 
   return (
-    <div className='bg-slate-800 h-[90rem]  flex flex-col md:block   items-center w-screen pl-10 text-white -mt-[2.5rem]'>  
+    <div className='bg-slate-800  flex flex-col md:block   items-center w-screen pl-10 text-white -mt-[2.5rem]'>  
       <div><Toaster/></div> 
      <h1 className='text-center text-2xl font-semibold  pt-20 mb-24 '> Put Your Random Details</h1>
      <form className="flex flex-col md:flex-row gap-x-8 md:justify-center gap-y-4" onSubmit={handleSubmit(onSubmit)}>
