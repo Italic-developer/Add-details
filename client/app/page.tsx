@@ -3,6 +3,7 @@
 import { useEffect , useState } from "react";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from 'react-hot-toast'
+import Image from "next/image";
 
 export default function Home() {
 
@@ -24,7 +25,7 @@ export default function Home() {
   const {register, handleSubmit, watch, formState: { errors }} = useForm<FormData>()
    const onSubmit = async(data:FormData ) => {
     try {
-      const response = await fetch("http://localhost:4000/api/post", {
+      const response = await fetch("https://random-details.onrender.com/api/post", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -47,12 +48,12 @@ export default function Home() {
     } catch (error) {
       toast.error("An error occurred while submitting the data");
     }
-      
+    
   }
 
   async function fetchdata() {
     setUsers([])
-    fetch("http://localhost:4000/api/getall")
+    fetch("https://random-details.onrender.com/api/getall")
     .then(response => response.json())
     .then(result => {console.log(result)
      setUsers(result) 
@@ -106,7 +107,15 @@ export default function Home() {
           <div>
             {users.map((user) => (
               <div key={user._id} className="flex text-left  w-screen flex-row gap-x-6">
-                <p className=" text-lg mt-6 font-semibold">Random User <br />{user.nameOfDetail } : { user.detail }</p>
+                <p className=" text-lg mt-6 relative text-right  w-40 font-semibold">
+                <Image
+                 src="/avatar.jpeg" 
+                 alt="random avatar"
+                  className="rounded-full "
+                  width={40}
+                  height={40}
+                  /><span className=" absolute right-0 top-1 ">Random User </span>
+                 <br />{user.nameOfDetail } : { user.detail }</p>
                 <hr />   
               </div>
             ))}
