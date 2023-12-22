@@ -1,6 +1,6 @@
 "use client"
 
-import {  useState } from "react";
+import { useEffect , useState } from "react";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from 'react-hot-toast'
 import Image from "next/image";
@@ -61,7 +61,10 @@ export default function Home() {
     .catch(error => console.log('error', error));
 }
 
-fetchdata()
+    useEffect( 
+      ()=>{ 
+       fetchdata();
+    } , [])
 
   return (
     <div className='bg-slate-800  flex flex-col md:block   items-center w-screen pl-10 text-white -mt-[2.5rem]'>  
