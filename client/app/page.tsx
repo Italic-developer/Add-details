@@ -4,6 +4,7 @@ import { useEffect , useState } from "react";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from 'react-hot-toast'
 import Image from "next/image";
+import {FiTrash} from "react-icons/fi"
 
 export default function Home() {
 
@@ -17,8 +18,16 @@ export default function Home() {
     _id: string;
     nameOfDetail: string;
     detail: string;
-    // Add other properties as needed
-  }
+  } 
+   const fetchdata = async () => {
+    setUsers([])
+    fetch("https://random-details.onrender.com/api/getall")
+    .then(response => response.json())
+    .then(result => {console.log(result)
+     setUsers(result) 
+    })
+    .catch(error => console.log('error', error));
+}
   
   // Update the state type
   const [users, setUsers] = useState<User[]>([]);
@@ -51,15 +60,42 @@ export default function Home() {
     
   }
 
-  async function fetchdata() {
-    setUsers([])
-    fetch("https://random-details.onrender.com/api/getall")
-    .then(response => response.json())
-    .then(result => {console.log(result)
-     setUsers(result) 
-    })
-    .catch(error => console.log('error', error));
-}
+  async function onDelete(id:string) {
+
+    try {
+  
+      const response = await fetch(`https://random-details.onrender.com/api/delete/${id}`, {
+        method: 'DELETE'
+      });
+  
+      // Throw error if status is 4xx or 5xx
+      if(!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message);
+      }
+  
+      // Success
+      toast.success('Deleted successfully')
+      fetchdata()
+  
+    } catch (error:any) {
+  
+      // Catch network errors    
+      if(error.message.includes('Failed to fetch')) {
+        toast.error('Network error - please try again');
+      
+      // Catch server response errors  
+      } else {
+        toast.error(error.message);
+      }
+  
+    }
+  
+  }
+  
+
+ 
+
 
     useEffect( 
       ()=>{ 
@@ -116,7 +152,8 @@ export default function Home() {
                   width={40}
                   height={40}
                   /><span className=" absolute right-0 top-1 ">Random User </span>
-                 <br />{user.nameOfDetail } : { user.detail }</p>
+                 <br />{user.nameOfDetail } : { user.detail }<FiTrash onClick={() => {onDelete(user._id)}}/></p> 
+
                 <hr />   
               </div>
             ))}
